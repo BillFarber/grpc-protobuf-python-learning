@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+// Package declaration for MarkLogic services
+package marklogic;
+
+// MarkLogic service definition for document operations
+service MarkLogicService {
+    // Insert a document into MarkLogic database
+    // Accepts any valid JSON object and returns operation status
+    rpc InsertDocument (DocumentRequest) returns (DocumentResponse);
+}
+
+// Request message for document insertion
+message DocumentRequest {
+    // The document data as a JSON string
+    // This allows for any valid JSON structure to be passed
+    string json_data = 1;
+    
+    // Optional: Document URI/identifier in MarkLogic
+    // If not provided, MarkLogic will auto-generate one
+    string document_uri = 2;
+    
+    // Optional: Collection names to associate with the document
+    repeated string collections = 3;
+    
+    // Optional: Document metadata/properties
+    map<string, string> metadata = 4;
+}
+
+// Response message for document operations
+message DocumentResponse {
+    // Status message describing the operation result
+    // Examples: "Document inserted successfully", "Validation failed", etc.
+    string status_message = 1;
+    
+    // Integer status code
+    // 0 = Success, > 0 = Various error codes
+    // Following HTTP-like convention:
+    // 200 = Success
+    // 400 = Bad Request (invalid JSON, etc.)
+    // 500 = Internal Server Error
+    int32 status_code = 2;
+    
+    // Optional: The URI where the document was stored
+    string document_uri = 3;
+    
+    // Optional: Additional details about the operation
+    string details = 4;
+}

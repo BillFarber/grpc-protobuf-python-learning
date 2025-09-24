@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+// Package declaration - helps avoid naming conflicts
+package hello;
+
+// Service definition - defines the RPC methods that can be called
+service HelloService {
+    // SayHello is a simple unary RPC where the client sends a single request
+    // and receives a single response, just like a normal function call
+    rpc SayHello (HelloRequest) returns (HelloResponse);
+}
+
+// Message definition for the request
+// Messages are the data structures that are exchanged between client and server
+message HelloRequest {
+    // The name field is a string that will contain the name to greet
+    // Field numbers (like "1" here) are unique identifiers for each field
+    // and are used for serialization - they should never be changed once in use
+    string name = 1;
+}
+
+// Message definition for the response
+message HelloResponse {
+    // The message field will contain the greeting response
+    string message = 1;
+}
